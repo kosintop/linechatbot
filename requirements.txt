@@ -10,7 +10,7 @@ cssselect==1.0.1
 cycler==0.10.0
 enum34==1.1.6
 Flask==0.12.2
-functools32==3.2.3.post2
+functools32
 future==0.16.0
 idna==2.6
 incremental==16.10.1
