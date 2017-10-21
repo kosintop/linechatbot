@@ -37,7 +37,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-    reply = "Hello " + get_user_profile(event.source.userId).displayName + ", you message was " + event.message.text
+    print(event.source)
+    reply = "Hello " + get_user_profile(event.source.user_id).display_name + ", you message was " + event.message.text
 
     line_bot_api.reply_message(
         event.reply_token,
