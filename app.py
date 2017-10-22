@@ -69,7 +69,7 @@ def push_message():
     else:
         messages.append(create_message(data['messages']))
 
-    line_bot_api.push_message(data['user_id'],messages)
+    line_bot_api.push_message(data['to'],messages)
 
     return 'OK'
 
