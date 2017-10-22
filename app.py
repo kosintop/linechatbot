@@ -44,10 +44,12 @@ def handle_message(event):
     reply = "Hello " + user_profile.display_name + ", your message was " + event.message.text + ", your user_id is " + user_profile.user_id
 
     data = {
-        'message': event.message.text
+        "USERID": event.source.user_id,
+        "MESSAGE": event.message.text,
+        "TOKENID": event.replyToken
     }
 
-    response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=data)
+    response = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=data)
     print(response.content)
 
     line_bot_api.reply_message(
