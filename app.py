@@ -44,7 +44,10 @@ def handle_message(event):
     data = {
         'message': event.message.text
     }
-    response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=data)
+    try:
+        response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=data)
+    except:
+        print('cant request,' , response.body)
     print(response)
     line_bot_api.reply_message(
         event.reply_token,
