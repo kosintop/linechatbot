@@ -40,11 +40,22 @@ def callback():
 def handle_message(event):
 
     reply = "Hello " + get_user_profile(event.source.user_id).display_name + ", your message was " + event.message.text
-    response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",data=event.message)
+    response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=event.message)
     print(response)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=reply))
+
+
+@app.route("/push_message", methods=['POST'])
+def push_message():
+    # {
+    #     user_id = 'xxx',
+    #     message = 'xxx'
+    # }
+    data = request.json
+
+    line_bot_api.push_message(data.user_id,data.messages)
 
 def get_user_profile(user_id):
     # {
