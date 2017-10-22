@@ -46,7 +46,7 @@ def handle_message(event):
     data = {
         "USERID": event.source.user_id,
         "MESSAGE": event.message.text,
-        "TOKENID": event.replyToken
+        "TOKENID": event.reply_token
     }
 
     response = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=data)
