@@ -44,7 +44,7 @@ def handle_message(event):
     data = {
         'message': event.message.text
     }
-    response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=json.dumps(data))
+    response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=data)
     print(response)
     line_bot_api.reply_message(
         event.reply_token,
