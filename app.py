@@ -8,6 +8,8 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
+from linebot.models import ImageMessage
+from linebot.models import ImageSendMessage
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage
 )
@@ -55,12 +57,15 @@ def handle_message(event):
 
 @app.route("/push_message", methods=['POST'])
 def push_message():
-    # {
-    #     user_id = 'xxx',
-    #     message = 'xxx'
-    # }
+
     data = request.json
-    line_bot_api.push_message(data['user_id'],TextSendMessage(text=data['message']))
+
+    if data.type=='image':
+        message = ImageSendMessage(data['original_content_url'],data['preview_image_url'])
+    else:
+        message = TextSendMessage(data['message'])
+
+    line_bot_api.push_message(data['user_id'],message)
 
     return 'OK'
 
