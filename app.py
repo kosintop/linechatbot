@@ -46,7 +46,7 @@ def handle_message(event):
     }
     try:
         response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=data)
-        print(response.raw)
+        print(response.content.__str__())
     except:
         print('cant request,' , response.body)
 
