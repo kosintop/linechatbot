@@ -58,7 +58,7 @@ def push_message():
     #     message = 'xxx'
     # }
     data = request.json
-    line_bot_api.push_message(data['user_id'],data['message'])
+    line_bot_api.push_message(data['user_id'],TextSendMessage(text=data['message']))
 
 def get_user_profile(user_id):
     # {
