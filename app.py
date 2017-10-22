@@ -61,15 +61,24 @@ def handle_message(event):
 def push_message():
 
     data = request.json
-
-    if 'type' in data and data.type=='image':
-        message = ImageSendMessage(data['original_content_url'],data['preview_image_url'])
+    messages = []
+    if isinstance(data.messages,list):
+        # if messages is array
+        for message in messages:
+            create_message(message)
     else:
-        message = TextSendMessage(data['message'])
+        create_message(data.messages)
 
-    line_bot_api.push_message(data['user_id'],message)
+    line_bot_api.push_message(data['user_id'],messages)
 
     return 'OK'
+
+def create_message(data):
+    if 'type' in data and data.type == 'image':
+        message = ImageSendMessage(data['original_content_url'], data['preview_image_url'])
+    else:
+        message = TextSendMessage(data['message'])
+    return message
 
 def get_user_profile(user_id):
     # {
