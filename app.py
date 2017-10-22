@@ -65,9 +65,9 @@ def push_message():
     if isinstance(data['messages'],list):
         # if messages is array
         for message in data['messages']:
-            create_message(message)
+            messages.append(create_message(message))
     else:
-        create_message(data['messages'])
+        messages.append(create_message(data['messages']))
 
     line_bot_api.push_message(data['user_id'],messages)
 
@@ -77,7 +77,7 @@ def create_message(data):
     if data['type'] == 'image':
         message = ImageSendMessage(data['original_content_url'], data['preview_image_url'])
     else:
-        message = TextSendMessage(data['message'])
+        message = TextSendMessage(data['text'])
     return message
 
 def get_user_profile(user_id):
