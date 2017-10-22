@@ -57,22 +57,23 @@ def push_message():
     #     user_id = 'xxx',
     #     message = 'xxx'
     # }
+    data = request.json
     try:
-        print(request)
+        print(data)
     except:
-        print('cant print request')
+        print('cant print data')
         pass
     try:
-        print(request.json)
+        print(data['user_id'])
     except:
-        print('cant print request.json')
+        print('cant print data[user_id]')
         pass
     try:
-        print(json.dumps(request.json))
+        print(data.user_id)
     except:
-        print('cant print request.json dump')
+        print('cant print data.user_id')
         pass
-    data = json.dumps(request.json)
+
 
     line_bot_api.push_message(data.user_id,data.message)
 
