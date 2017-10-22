@@ -57,6 +57,21 @@ def push_message():
     #     user_id = 'xxx',
     #     message = 'xxx'
     # }
+    try:
+        print(request)
+    except:
+        print('cant print request')
+        pass
+    try:
+        print(request.json)
+    except:
+        print('cant print request.json')
+        pass
+    try:
+        print(json.dumps(request.json))
+    except:
+        print('cant print request.json dump')
+        pass
     data = request.json
 
     line_bot_api.push_message(data.user_id,data.messages)
