@@ -58,24 +58,7 @@ def push_message():
     #     message = 'xxx'
     # }
     data = request.json
-    try:
-        print(data)
-    except:
-        print('cant print data')
-        pass
-    try:
-        print(data['user_id'])
-    except:
-        print('cant print data[user_id]')
-        pass
-    try:
-        print(data.user_id)
-    except:
-        print('cant print data.user_id')
-        pass
-
-
-    line_bot_api.push_message(data.user_id,data.message)
+    line_bot_api.push_message(data['user_id'],data['message'])
 
 def get_user_profile(user_id):
     # {
