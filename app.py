@@ -1,3 +1,5 @@
+import requests
+
 from flask import Flask, request, abort
 
 from linebot import (
@@ -37,9 +39,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
-    print(event.source)
     reply = "Hello " + get_user_profile(event.source.user_id).display_name + ", your message was " + event.message.text
-
+    requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=event.message)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=reply))
