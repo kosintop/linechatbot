@@ -62,12 +62,12 @@ def push_message():
 
     data = request.json
     messages = []
-    if isinstance(data.messages,list):
+    if isinstance(data['messages'],list):
         # if messages is array
-        for message in messages:
+        for message in data['messages']:
             create_message(message)
     else:
-        create_message(data.messages)
+        create_message(data['messages'])
 
     line_bot_api.push_message(data['user_id'],messages)
 
