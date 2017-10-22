@@ -60,6 +60,8 @@ def push_message():
     data = request.json
     line_bot_api.push_message(data['user_id'],TextSendMessage(text=data['message']))
 
+    return 'OK'
+
 def get_user_profile(user_id):
     # {
     #     "displayName": "LINE taro",
