@@ -60,7 +60,7 @@ def push_message():
 
     data = request.json
 
-    if data.type=='image':
+    if 'type' in data and data.type=='image':
         message = ImageSendMessage(data['original_content_url'],data['preview_image_url'])
     else:
         message = TextSendMessage(data['message'])
