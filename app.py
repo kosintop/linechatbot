@@ -40,7 +40,8 @@ def callback():
 def handle_message(event):
 
     reply = "Hello " + get_user_profile(event.source.user_id).display_name + ", your message was " + event.message.text
-    requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=event.message)
+    response = requests.post("http://www.inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOB",json=event.message)
+    print(response)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=reply))
