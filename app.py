@@ -75,7 +75,7 @@ def push_message():
 
 def create_message(data):
     if data['type'] == 'image':
-        message = ImageSendMessage(data['original_content_url'], data['preview_image_url'])
+        message = ImageSendMessage(data['originalContentUrl'], data['previewImageUrl'])
     else:
         message = TextSendMessage(data['text'])
     return message
