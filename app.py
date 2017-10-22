@@ -72,9 +72,9 @@ def push_message():
     except:
         print('cant print request.json dump')
         pass
-    data = request.json
+    data = json.dumps(request.json)
 
-    line_bot_api.push_message(data.user_id,data.messages)
+    line_bot_api.push_message(data.user_id,data.message)
 
 def get_user_profile(user_id):
     # {
