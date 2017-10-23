@@ -4,6 +4,7 @@ from flask import Flask, request, abort
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
+from linebot.models import ImageMessage
 from linebot.models import LocationSendMessage
 from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
 
@@ -31,7 +32,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def handle_text_message(event):
     user_profile = get_user_profile(event.source.user_id)
     reply_token = event.reply_token
     #reply = "Hello " + user_profile.display_name + ", your message was " + event.message.text + ", your user_id is " + user_profile.user_id
@@ -49,6 +50,20 @@ def handle_message(event):
     message = create_message(json.loads(response_data))
     line_bot_api.reply_message(reply_token,message)
 
+
+@handler.add(MessageEvent,message=ImageMessage)
+def handle_image_message(event):
+    message_id = event.message.id
+    message_content = line_bot_api.get_message_content(message_id)
+
+    with open(message_id, 'rb') as f:
+        for chunk in message_content.iter_content():
+            f.write(chunk)
+        r = requests.post('https://line-chatbot-kos.herokuapp.com/callback', files={'image': f})
+
+    print(r.content)
+
+    return 'OK'
 
 @app.route("/push_message", methods=['POST'])
 def push_message():
