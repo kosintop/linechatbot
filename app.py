@@ -1,15 +1,12 @@
 import io
 from flask import Flask, request, abort
 from flask import send_file
-from handler import event_handler
-from linebot import LineBotApi
+from handler import event_handler, line_bot_api
 from linebot.exceptions import InvalidSignatureError
 
 from helper import create_message
-from settings import CHANNEL_TOKEN
 
 app = Flask(__name__)
-line_bot_api = LineBotApi(CHANNEL_TOKEN)
 
 
 @app.route("/callback", methods=['POST'])

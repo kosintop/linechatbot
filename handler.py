@@ -1,12 +1,13 @@
 import requests
+from linebot import LineBotApi
 from linebot import WebhookHandler
 from linebot.models import ImageMessage
 from linebot.models import MessageEvent
 from linebot.models import TextMessage
 
-from app import line_bot_api
-from settings import CHANNEL_SECRET
+from settings import CHANNEL_SECRET, CHANNEL_TOKEN
 
+line_bot_api = LineBotApi(CHANNEL_TOKEN)
 event_handler = WebhookHandler(CHANNEL_SECRET)
 
 
