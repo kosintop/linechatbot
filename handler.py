@@ -1,9 +1,11 @@
 import requests
 from linebot import LineBotApi
 from linebot import WebhookHandler
+from linebot.models import AudioMessage
 from linebot.models import ImageMessage
 from linebot.models import MessageEvent
 from linebot.models import TextMessage
+from linebot.models import VideoMessage
 
 from settings import CHANNEL_SECRET, CHANNEL_TOKEN
 
@@ -21,7 +23,7 @@ def handle_text_message(event):
     requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=data)
 
 
-@event_handler.add(MessageEvent,message=ImageMessage)
+@event_handler.add(MessageEvent,message=[ImageMessage, VideoMessage, AudioMessage])
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
     content = message_content.content
