@@ -1,21 +1,11 @@
 import requests
-import json
 from flask import Flask, request, abort
-
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import ImageMessage
-from linebot.models import ImageSendMessage
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage
-)
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import LocationSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
 
 app = Flask(__name__)
-
 line_bot_api = LineBotApi('oGXtXBuT+Ki0Y1hnL6GfCtiBGZXAMrxhkxpnkqQXRM8BqfNdWAsKUwMUv+/Gqo4nsfgtS0518Tw4YrlR2hucs+Xk+xzmEyCv9QbN31tBQ5dM+Ryc51D9DGpnvF6F7Ogr5+O4qAmZsmIQxnjE3gfpwQdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('7b7788e4140f7e5252e3bc0da7e0acac')
 
@@ -41,7 +31,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user_profile = get_user_profile(event.source.user_id)
-    reply = "Hello " + user_profile.display_name + ", your message was " + event.message.text + ", your user_id is " + user_profile.user_id
+    reply_token = event.reply_token
+    #reply = "Hello " + user_profile.display_name + ", your message was " + event.message.text + ", your user_id is " + user_profile.user_id
 
     data = {
         "USERID": event.source.user_id,
@@ -50,18 +41,17 @@ def handle_message(event):
     }
 
     response = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=data)
-    print(response.content)
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=reply))
+    response_data = response.json()
+    message = create_message(response_data)
+    line_bot_api.reply_message(reply_token,message)
 
 
 @app.route("/push_message", methods=['POST'])
 def push_message():
-
     data = request.json
     messages = []
+
     if isinstance(data['messages'],list):
         # if messages is array
         for message in data['messages']:
@@ -70,23 +60,43 @@ def push_message():
         messages.append(create_message(data['messages']))
 
     line_bot_api.push_message(data['to'],messages)
-
     return 'OK'
 
+
 def create_message(data):
-    if data['type'] == 'image':
-        message = ImageSendMessage(data['originalContentUrl'], data['previewImageUrl'])
+
+    if data['type'] == 'text':
+        message = TextSendMessage(text=data['text'])
+    elif data['type'] == 'image':
+        message = ImageSendMessage(original_content_url=data['originalContentUrl'],preview_image_url=data['previewImageUrl'])
+    elif data['type'] == 'location':
+        message = LocationSendMessage(title=data['title'],address=data['address'],latitude=data['latitude'],longitude=data['longitude'])
+    elif data['type'] == 'video':
+        pass
+    elif data['type'] == 'audio':
+        pass
+    elif data['type'] == 'sticker':
+        pass
+    elif data['type'] == 'imagemap':
+        pass
+    elif data['type'] == 'tempalte':
+        pass
     else:
-        message = TextSendMessage(data['text'])
+        raise TypeError
+
     return message
 
+
 def get_user_profile(user_id):
-    # {
-    #     "displayName": "LINE taro",
-    #     "userId": "Uxxxxxxxxxxxxxx...",
-    #     "pictureUrl": "http://obs.line-apps.com/...",
-    #     "statusMessage": "Hello, LINE!"
-    # }
+    """
+    Example of user_profile object
+    {
+        "display_name": "LINE taro",
+        "user_id": "Uxxxxxxxxxxxxxx...",
+        "picture_url": "http://obs.line-apps.com/...",
+        "status_message": "Hello, LINE!"
+    }
+    """
     return line_bot_api.get_profile(user_id)
 
 if __name__ == "__main__":
