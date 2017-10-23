@@ -32,7 +32,7 @@ def callback():
 
 @app.route("/test", methods=['POST'])
 def test_endpoint():
-    print(request.header)
+    print(request.headers)
     return send_file(io.BytesIO(request.data),mimetype='image/jpeg', attachment_filename='myfile.jpg')
 
 
