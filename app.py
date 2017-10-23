@@ -56,10 +56,7 @@ def handle_image_message(event):
     message_id = event.message.id
     message_content = line_bot_api.get_message_content(message_id)
 
-    with open(message_id, 'rb') as f:
-        for chunk in message_content.iter_content():
-            f.write(chunk)
-        r = requests.post('https://line-chatbot-kos.herokuapp.com/callback', files={'image': f})
+    r = requests.post('https://line-chatbot-kos.herokuapp.com/callback', files={'image': message_content})
 
     print(r.content)
 
