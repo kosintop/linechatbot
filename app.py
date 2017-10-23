@@ -34,7 +34,7 @@ def callback():
 @app.route("/test", methods=['POST'])
 def test_endpoint():
     print("testing")
-    return send_file(io.BytesIO(request.data))
+    return send_file(io.BytesIO(request.data),mimetype='image/*')
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
