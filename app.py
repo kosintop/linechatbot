@@ -1,5 +1,7 @@
+import json
 import requests
 from flask import Flask, request, abort
+
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import LocationSendMessage
@@ -43,7 +45,8 @@ def handle_message(event):
     response = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=data)
 
     response_data = response.json()
-    message = create_message(response_data)
+    print(response_data)
+    message = create_message(json.loads(response_data))
     line_bot_api.reply_message(reply_token,message)
 
 
