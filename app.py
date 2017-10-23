@@ -17,7 +17,6 @@ handler = WebhookHandler('7b7788e4140f7e5252e3bc0da7e0acac')
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
-
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
@@ -30,6 +29,10 @@ def callback():
 
     return 'OK'
 
+@app.route("/test", methods=['POST'])
+def test_endpoint():
+    print("testing")
+    print(request.data)
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
@@ -59,7 +62,7 @@ def handle_image_message(event):
     content = message_content.content
     print(content_type)
 
-    r = requests.post('https://line-chatbot-kos.herokuapp.com/callback', files={'image': content})
+    r = requests.post('https://line-chatbot-kos.herokuapp.com/test', files={'image': content})
 
     print(r.content)
 
