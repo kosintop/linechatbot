@@ -31,10 +31,13 @@ def callback():
 
     return 'OK'
 
+
 @app.route("/test", methods=['POST'])
 def test_endpoint():
     print("testing")
-    return send_file(io.BytesIO(request.data),mimetype='image/jpeg')
+    data =io.BytesIO(request.data)
+    return send_file(io.BytesIO(request.data),mimetype='image/jpeg', as_attachment=True, attachment_filename='myfile.jpg')
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
@@ -53,7 +56,7 @@ def handle_text_message(event):
     response_data = response.json()
     print(response_data)
     message = create_message(json.loads(response_data))
-    line_bot_api.reply_message(reply_token,message)
+    #line_bot_api.reply_message(reply_token,message)
 
 
 @handler.add(MessageEvent,message=ImageMessage)
