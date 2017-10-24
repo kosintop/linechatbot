@@ -32,7 +32,22 @@ def callback():
 
 @app.route("/test", methods=['POST'])
 def test_endpoint():
-    print(request.headers)
+
+    import sys
+    import binascii
+
+    jpeg_signatures = [
+        binascii.unhexlify(b'FFD8FFD8'),
+        binascii.unhexlify(b'FFD8FFE0'),
+        binascii.unhexlify(b'FFD8FFE1')
+    ]
+    content = io.BytesIO(request.data)
+    first_four_bytes = content.read(4)
+    if first_four_bytes in jpeg_signatures:
+        print("JPEG detected.")
+    else:
+        print("File does not look like a JPEG.")
+
     return send_file(io.BytesIO(request.data),mimetype='image/jpeg', attachment_filename='myfile.jpg')
 
 

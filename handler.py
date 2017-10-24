@@ -29,23 +29,7 @@ def handle_image_message(event):
     print(event.message.id)
     message_content = line_bot_api.get_message_content(event.message.id)
     content = message_content.content
-    
-    try:
-        import sys
-        import binascii
-        jpeg_signatures = [
-            binascii.unhexlify(b'FFD8FFD8'),
-            binascii.unhexlify(b'FFD8FFE0'),
-            binascii.unhexlify(b'FFD8FFE1')
-        ]
-        first_four_bytes = content.read(4)
-        if first_four_bytes in jpeg_signatures:
-            print("JPEG detected.")
-        else:
-            print("File does not look like a JPEG.")
-    except:
-        print("exception")
-        pass
+
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
     requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGE", headers=headers, files={'file': ('test.jpg',content,'application/octet-stream')}, timeout=20)
 
