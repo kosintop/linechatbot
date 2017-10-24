@@ -28,7 +28,7 @@ def handle_text_message(event):
 def handle_image_message(event):
     message_content = line_bot_api.get_message_content(event.message.id)
     content = message_content.content
-    headers = {'Content-type': message_content.content_type}
+    headers = {'Content-type': 'application/x-www-form-urlencoded'}
     requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGE", headers=headers, files={'image': content})
 
 
