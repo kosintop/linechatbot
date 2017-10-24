@@ -41,7 +41,7 @@ def handle_image_message(event):
         first_four_bytes = content.read(4)
         if first_four_bytes in jpeg_signatures:
             print("JPEG detected.")
-         else:
+        else:
             print("File does not look like a JPEG.")
     except:
         print("exception")
