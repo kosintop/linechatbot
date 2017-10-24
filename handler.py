@@ -25,7 +25,7 @@ def handle_text_message(event):
     }
     try:
         requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
-    except MaxRetryError:
+    except:
         line_bot_api.push_message(event.source.user_id,[TextSendMessage(text='Error getting data from inventech, please retry')])
 
 
@@ -40,7 +40,7 @@ def handle_image_message(event):
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
     try:
         requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGE", headers=headers, json=json, data=content, timeout=20)
-    except MaxRetryError:
+    except:
         line_bot_api.push_message(event.source.user_id,[TextSendMessage(text='Error getting data from inventech, please retry')])
 
 
@@ -55,6 +55,6 @@ def handle_location_message(event):
         "longitude":event.message.longitude,
     }
     try:
-        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=data, timeout=20)
+        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json, timeout=20)
     except:
         line_bot_api.push_message(event.source.user_id,[TextSendMessage(text='Error getting data from inventech, please retry')])
