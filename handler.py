@@ -26,13 +26,10 @@ def handle_text_message(event):
 
 @event_handler.add(MessageEvent,message=[ImageMessage])
 def handle_image_message(event):
-    print(event.message.id)
     message_content = line_bot_api.get_message_content(event.message.id)
     content = message_content.content
-    print('posting to test')
-    requests.post("https://line-chatbot-kos.herokuapp.com/test", data=content)
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
-    # requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGE", headers=headers, files={'file': ('test.jpg',content,'application/octet-stream')}, timeout=20)
+    requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGE", headers=headers,  data=content, timeout=20)
 
 
 @event_handler.add(MessageEvent,message=[LocationMessage])
