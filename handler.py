@@ -31,15 +31,14 @@ def handle_text_message(event):
 
 @event_handler.add(MessageEvent,message=[ImageMessage])
 def handle_image_message(event):
-    json = {
-        "USERID": event.source.user_id,
-        "TOKENID": event.reply_token
-    }
+    param = "?USERID="+event.source.user_id+"&TOKENID="+event.reply_token
+
     message_content = line_bot_api.get_message_content(event.message.id)
     content = message_content.content
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
+    print("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param)
     try:
-        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGE", headers=headers, json=json, data=content, timeout=20)
+        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20)
     except:
         line_bot_api.push_message(event.source.user_id,[TextSendMessage(text='Error getting data from inventech, please retry')])
 
