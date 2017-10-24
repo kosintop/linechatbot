@@ -36,7 +36,12 @@ def handle_image_message(event):
 def handle_image_message(event):
     data = {
         "USERID": event.source.user_id,
-        "MESSAGE": event.message.text,
-        "TOKENID": event.reply_token
+        "TOKENID": event.reply_token,
+		"title":event.message.title,
+		"address":event.message.address,
+		"latitude":event.message.latitude,
+		"longitude":event.message.longitude,
     }
-    # requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=data)
+    r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=data)
+	print(data)
+	print(r.content)
