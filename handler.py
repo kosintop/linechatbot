@@ -43,5 +43,5 @@ def handle_image_message(event):
 		"longitude":event.message.longitude,
     }
     r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=data)
-	print(data)
-	print(r.content)
+    print(data)
+    print(r.content)
