@@ -42,7 +42,9 @@ def test_endpoint():
         binascii.unhexlify(b'FFD8FFE1')
     ]
     content = io.BytesIO(request.data)
-    first_four_bytes = content.read(4)
+
+    first_four_bytes = content.read(8)
+    print(first_four_bytes)
     if first_four_bytes in jpeg_signatures:
         print("JPEG detected.")
     else:
