@@ -25,7 +25,7 @@ def handle_text_message(event):
     }
     print("start connection to inventech" + event.message.text)
     try:
-        requests.post("http://inventech.co.th/dbo_stonline/STB2B/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
+        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
         print("finish connection to inventech" + event.message.text)
     except:
         print("could not connect to inventech" + event.message.text)
