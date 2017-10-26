@@ -10,6 +10,7 @@ from linebot.models import VideoMessage
 from linebot.models import LocationMessage
 from urllib3.exceptions import MaxRetryError
 
+from helper import create_message
 from settings import CHANNEL_SECRET, CHANNEL_TOKEN
 
 line_bot_api = LineBotApi(CHANNEL_TOKEN)
@@ -26,8 +27,8 @@ def handle_text_message(event):
     try:
         r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
         data = r.json()
-        print(data)
-        line_bot_api.reply_message(event.reply_token, data['messages'])
+        messages = create_message(data['messages'])
+        line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Red Monkey Error")
         print(e)
@@ -45,7 +46,8 @@ def handle_image_message(event):
     try:
         r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20)
         data = r.json()
-        line_bot_api.reply_message(event.reply_token,data['messages'])
+        messages = create_message(data['messages'])
+        line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Yellow Monkey Error")
         print(e)
@@ -65,7 +67,8 @@ def handle_location_message(event):
     try:
         r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json, timeout=20)
         data = r.json()
-        line_bot_api.reply_message(event.reply_token, data['messages'])
+        messages = create_message(data['messages'])
+        line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Blue Monkey Error")
         print(e)
