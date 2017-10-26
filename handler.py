@@ -43,9 +43,16 @@ def handle_text_message(event):
         "TOKENID": event.reply_token
     }
 
-    send_data_to_inventech('ASKBOBV2',json_data=json_data)
-    print("Red Monkey Error")
-    line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
+    try:
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20)
+        data = r.json()['STATUS'][0]
+        json_messages = json.loads(data['messages'])
+        messages = create_messages(json_messages)
+        line_bot_api.reply_message(event.reply_token, messages)
+    except Exception as e:
+        print("Red Money Error")
+        print(e)
+        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
 
 @event_handler.add(MessageEvent,message=[ImageMessage])
@@ -56,7 +63,12 @@ def handle_image_message(event):
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
 
     try:
-        send_data_to_inventech('POSTIMAGEV2'+param, binary_data=content,headers=headers)
+
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20)
+        data = r.json()['STATUS'][0]
+        json_messages = json.loads(data['messages'])
+        messages = create_messages(json_messages)
+        line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Yellow Monkey Error")
         print(e)
@@ -75,7 +87,11 @@ def handle_location_message(event):
     }
 
     try:
-        send_data_to_inventech('ASKBOBV2_LOCATION', json_data=json_data)
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json_data, timeout=20)
+        data = r.json()['STATUS'][0]
+        json_messages = json.loads(data['messages'])
+        messages = create_messages(json_messages)
+        line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Green Monkey Error")
         print(e)
