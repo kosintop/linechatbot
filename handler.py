@@ -60,7 +60,7 @@ def handle_image_message(event):
     try:
         send_data_to_inventech('POSTIMAGEV2'+param, binary_data=content,headers=headers)
     except Exception as e:
-        print("Red Monkey Error")
+        print("Yellow Monkey Error")
         print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
@@ -79,6 +79,6 @@ def handle_location_message(event):
     try:
         send_data_to_inventech('ASKBOBV2_LOCATION', json_data=json_data)
     except Exception as e:
-        print("Red Monkey Error")
+        print("Green Monkey Error")
         print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
