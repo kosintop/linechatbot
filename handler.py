@@ -24,17 +24,12 @@ def handle_text_message(event):
         "MESSAGE": event.message.text,
         "TOKENID": event.reply_token
     }
-    try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
-        data = r.json()['STATUS'][0]
-        print(data)
-        messages = create_messages(data['messages'])
-        print(messages)
-        line_bot_api.reply_message(event.reply_token, messages)
-    except Exception as e:
-        print("Red Monkey Error")
-        print(e)
-        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
+    r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
+    data = r.json()['STATUS'][0]
+    print(data)
+    messages = create_messages(data['messages'])
+    print(messages)
+    line_bot_api.reply_message(event.reply_token, messages)
 
 
 
