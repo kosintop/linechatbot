@@ -32,7 +32,7 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
     json_messages = json.loads(data['messages'])
 
     messages = create_messages(json_messages)
-    line_bot_api.reply_message(data['replyToken'], messages)
+    line_bot_api.reply_message(data['replytoken'], messages)
 
 
 @event_handler.add(MessageEvent, message=TextMessage)
