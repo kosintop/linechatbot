@@ -3,20 +3,35 @@ import json
 import requests
 from linebot import LineBotApi
 from linebot import WebhookHandler
-from linebot.models import AudioMessage
 from linebot.models import ImageMessage
 from linebot.models import MessageEvent
 from linebot.models import TextMessage
 from linebot.models import TextSendMessage
-from linebot.models import VideoMessage
 from linebot.models import LocationMessage
-from urllib3.exceptions import MaxRetryError
+from requests.adapters import HTTPAdapter
 
-from helper import create_message, create_messages
+from helper import create_messages
 from settings import CHANNEL_SECRET, CHANNEL_TOKEN
 
 line_bot_api = LineBotApi(CHANNEL_TOKEN)
 event_handler = WebhookHandler(CHANNEL_SECRET)
+
+
+def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None):
+    s = requests.Session()
+    s.mount('https://', HTTPAdapter(max_retries=3))
+    r = s.post('https://inventech.co.th/dbo_stonline/B2BSERVICES.svc/'+endpoint,
+               headers=headers,
+               json=json_data,
+               data=binary_data,
+               timeout=20
+               )
+
+    data = r.json()['STATUS'][0]
+    json_messages = json.loads(data['messages'])
+
+    messages = create_messages(json_messages)
+    line_bot_api.reply_message(data['replyToken'], messages)
 
 
 @event_handler.add(MessageEvent, message=TextMessage)
@@ -26,18 +41,13 @@ def handle_text_message(event):
         "MESSAGE": event.message.text,
         "TOKENID": event.reply_token
     }
+
     try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20, max_retries=3)
-        data = r.json()['STATUS'][0]
-        json_messages = json.loads(data['messages'])
-        messages = create_messages(json_messages)
-        line_bot_api.reply_message(event.reply_token, messages)
+        send_data_to_inventech('ASKBOBV2',json_data=json_data)
     except Exception as e:
-        print("Red Money Error")
+        print("Red Monkey Error")
         print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
-
-
 
 
 @event_handler.add(MessageEvent,message=[ImageMessage])
@@ -48,13 +58,9 @@ def handle_image_message(event):
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
 
     try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20, max_retries=3)
-        data = r.json()['STATUS'][0]
-        json_messages = json.loads(data['messages'])
-        messages = create_messages(json_messages)
-        line_bot_api.reply_message(event.reply_token, messages)
+        send_data_to_inventech('POSTIMAGEV2'+param, binary_data=content,headers=headers)
     except Exception as e:
-        print("Yellow Monkey Error")
+        print("Red Monkey Error")
         print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
@@ -69,14 +75,10 @@ def handle_location_message(event):
         "latitude":event.message.latitude,
         "longitude":event.message.longitude,
     }
-    try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json_data, timeout=20, max_retries=3)
-        data = r.json()['STATUS'][0]
-        json_messages = json.loads(data['messages'])
-        messages = create_messages(json_messages)
-        line_bot_api.reply_message(event.reply_token, messages)
-    except Exception as e:
-        print("Blue Monkey Error")
-        print(e)
-        line_bot_api.push_message(event.source.user_id,[TextSendMessage(text=str(e))])
 
+    try:
+        send_data_to_inventech('ASKBOBV2_LOCATION', json_data=json_data)
+    except Exception as e:
+        print("Red Monkey Error")
+        print(e)
+        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
