@@ -26,14 +26,17 @@ def handle_text_message(event):
         "MESSAGE": event.message.text,
         "TOKENID": event.reply_token
     }
-    r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20)
-    data = r.json()['STATUS'][0]
-    print(data)
-    data = json.loads(data['messages'])
-    print(data)
-    messages = create_messages(data['messages'])
-    print(messages)
-    line_bot_api.reply_message(event.reply_token, messages)
+    try:
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20)
+        data = r.json()['STATUS'][0]
+        json_messages = json.loads(data['messages'])
+        messages = create_messages(json_messages)
+        line_bot_api.reply_message(event.reply_token, messages)
+    except Exception as e:
+        print("Red Money Error")
+        print(e)
+        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
+
 
 
 
@@ -47,7 +50,8 @@ def handle_image_message(event):
     try:
         r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20)
         data = r.json()['STATUS'][0]
-        messages = create_messages(data['messages'])
+        json_messages = json.loads(data['messages'])
+        messages = create_messages(json_messages)
         line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Yellow Monkey Error")
@@ -57,7 +61,7 @@ def handle_image_message(event):
 
 @event_handler.add(MessageEvent,message=[LocationMessage])
 def handle_location_message(event):
-    json = {
+    json_data = {
         "USERID": event.source.user_id,
         "TOKENID": event.reply_token,
         "title":event.message.title,
@@ -66,9 +70,10 @@ def handle_location_message(event):
         "longitude":event.message.longitude,
     }
     try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json, timeout=20)
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json_data, timeout=20)
         data = r.json()['STATUS'][0]
-        messages = create_messages(data['messages'])
+        json_messages = json.loads(data['messages'])
+        messages = create_messages(json_messages)
         line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Blue Monkey Error")
