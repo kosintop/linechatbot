@@ -27,7 +27,7 @@ def handle_text_message(event):
         "TOKENID": event.reply_token
     }
     try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20)
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20, max_retries=3)
         data = r.json()['STATUS'][0]
         json_messages = json.loads(data['messages'])
         messages = create_messages(json_messages)
@@ -48,7 +48,7 @@ def handle_image_message(event):
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
 
     try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20)
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20, max_retries=3)
         data = r.json()['STATUS'][0]
         json_messages = json.loads(data['messages'])
         messages = create_messages(json_messages)
@@ -70,7 +70,7 @@ def handle_location_message(event):
         "longitude":event.message.longitude,
     }
     try:
-        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json_data, timeout=20)
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json_data, timeout=20, max_retries=3)
         data = r.json()['STATUS'][0]
         json_messages = json.loads(data['messages'])
         messages = create_messages(json_messages)
