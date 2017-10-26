@@ -29,7 +29,7 @@ def handle_text_message(event):
     r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20)
     data = r.json()['STATUS'][0]
     print(data)
-    data = json.dumps(data['messages'])
+    data = json.loads(data['messages'])
     print(data)
     messages = create_messages(data['messages'])
     print(messages)
