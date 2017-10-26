@@ -17,24 +17,6 @@ line_bot_api = LineBotApi(CHANNEL_TOKEN)
 event_handler = WebhookHandler(CHANNEL_SECRET)
 
 
-def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None):
-    s = requests.Session()
-    s.mount('https://', HTTPAdapter(max_retries=3))
-    r = s.post('https://inventech.co.th/dbo_stonline/B2BSERVICES.svc/'+endpoint,
-               headers=headers,
-               json=json_data,
-               data=binary_data,
-               timeout=20
-               )
-    print(r.content)
-    print(r.json())
-    data = r.json()['STATUS'][0]
-    json_messages = json.loads(data['messages'])
-
-    messages = create_messages(json_messages)
-    line_bot_api.reply_message(data['replyToken'], messages)
-
-
 @event_handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     json_data = {
