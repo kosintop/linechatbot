@@ -42,12 +42,9 @@ def handle_text_message(event):
         "TOKENID": event.reply_token
     }
 
-    try:
-        send_data_to_inventech('ASKBOBV2',json_data=json_data)
-    except Exception as e:
-        print("Red Monkey Error")
-        print(e)
-        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
+    send_data_to_inventech('ASKBOBV2',json_data=json_data)
+    print("Red Monkey Error")
+    line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
 
 @event_handler.add(MessageEvent,message=[ImageMessage])
