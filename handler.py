@@ -23,27 +23,32 @@ def handle_text_message(event):
         "MESSAGE": event.message.text,
         "TOKENID": event.reply_token
     }
-    print("start connection to inventech" + event.message.text)
     try:
-        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
-        print("finish connection to inventech" + event.message.text)
-    except:
-        print("could not connect to inventech" + event.message.text)
-        line_bot_api.push_message(event.source.user_id,[TextSendMessage(text='Error getting data from inventech, please retry')])
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
+        data = r.json()
+        line_bot_api.reply_message(event.reply_token, data['messages'])
+    except Exception as e:
+        print("Red Monkey Error")
+        print(e)
+        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
+
 
 
 @event_handler.add(MessageEvent,message=[ImageMessage])
 def handle_image_message(event):
     param = "?USERID="+event.source.user_id+"&TOKENID="+event.reply_token
-
     message_content = line_bot_api.get_message_content(event.message.id)
     content = message_content.content
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
-    print("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param)
+
     try:
-        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20)
-    except:
-        line_bot_api.push_message(event.source.user_id,[TextSendMessage(text='Error getting data from inventech, please retry')])
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/POSTIMAGEV2"+param, headers=headers, data=content, timeout=20)
+        data = r.json()
+        line_bot_api.reply_message(event.reply_token,data['messages'])
+    except Exception as e:
+        print("Yellow Monkey Error")
+        print(e)
+        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
 
 @event_handler.add(MessageEvent,message=[LocationMessage])
@@ -57,6 +62,11 @@ def handle_location_message(event):
         "longitude":event.message.longitude,
     }
     try:
-        requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json, timeout=20)
-    except:
-        line_bot_api.push_message(event.source.user_id,[TextSendMessage(text='Error getting data from inventech, please retry')])
+        r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2_LOCATION",json=json, timeout=20)
+        data = r.json()
+        line_bot_api.reply_message(event.reply_token, data['messages'])
+    except Exception as e:
+        print("Blue Monkey Error")
+        print(e)
+        line_bot_api.push_message(event.source.user_id,[TextSendMessage(text=str(e))])
+
