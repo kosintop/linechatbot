@@ -27,7 +27,9 @@ def handle_text_message(event):
     try:
         r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
         data = r.json()
+        print(data)
         messages = create_message(data['messages'])
+        print(messages)
         line_bot_api.reply_message(event.reply_token, messages)
     except Exception as e:
         print("Red Monkey Error")
