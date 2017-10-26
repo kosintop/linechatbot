@@ -1,3 +1,5 @@
+import json
+
 import requests
 from linebot import LineBotApi
 from linebot import WebhookHandler
@@ -19,13 +21,15 @@ event_handler = WebhookHandler(CHANNEL_SECRET)
 
 @event_handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
-    json = {
+    json_data = {
         "USERID": event.source.user_id,
         "MESSAGE": event.message.text,
         "TOKENID": event.reply_token
     }
-    r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json, timeout=20)
+    r = requests.post("http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/ASKBOBV2",json=json_data, timeout=20)
     data = r.json()['STATUS'][0]
+    print(data)
+    data = json.dumps(data['messages'])
     print(data)
     messages = create_messages(data['messages'])
     print(messages)
