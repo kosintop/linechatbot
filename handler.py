@@ -19,7 +19,7 @@ event_handler = WebhookHandler(CHANNEL_SECRET)
 
 def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None):
     s = requests.Session()
-    s.mount('http://', HTTPAdapter(max_retries=3))
+    s.mount('https://', HTTPAdapter(max_retries=3))
     r = s.post(API_URL+endpoint,
                headers=headers,
                json=json_data,
