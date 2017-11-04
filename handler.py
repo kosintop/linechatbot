@@ -11,7 +11,7 @@ from linebot.models import LocationMessage
 from requests.adapters import HTTPAdapter
 
 from helper import create_messages
-from settings import CHANNEL_SECRET, CHANNEL_TOKEN
+from settings import CHANNEL_SECRET, CHANNEL_TOKEN,API_URL
 
 line_bot_api = LineBotApi(CHANNEL_TOKEN)
 event_handler = WebhookHandler(CHANNEL_SECRET)
@@ -20,7 +20,7 @@ event_handler = WebhookHandler(CHANNEL_SECRET)
 def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None):
     s = requests.Session()
     s.mount('http://', HTTPAdapter(max_retries=3))
-    r = s.post('http://inventech.co.th/dbo_stonline/B2BSERVICES.svc/'+endpoint,
+    r = s.post(API_URL+endpoint,
                headers=headers,
                json=json_data,
                data=binary_data,
@@ -43,7 +43,7 @@ def handle_text_message(event):
     }
 
     try:
-        send_data_to_inventech('ASKBOBV2',json_data=json_data)
+        send_data_to_inventech('/ASKBOBV2',json_data=json_data)
     except Exception as e:
         print("Red Monkey Error")
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
@@ -57,7 +57,7 @@ def handle_image_message(event):
     headers = {'Content-type': 'application/x-www-form-urlencoded'}
 
     try:
-        send_data_to_inventech('POSTIMAGEV2'+param, binary_data=content,headers=headers)
+        send_data_to_inventech('/POSTIMAGEV2'+param, binary_data=content,headers=headers)
     except Exception as e:
         print("Yellow Monkey Error")
         print(e)
@@ -76,7 +76,7 @@ def handle_location_message(event):
     }
 
     try:
-        send_data_to_inventech('ASKBOBV2_LOCATION', json_data=json_data)
+        send_data_to_inventech('/ASKBOBV2_LOCATION', json_data=json_data)
     except Exception as e:
         print("Green Monkey Error")
         print(e)
