@@ -34,9 +34,9 @@ def callback():
 def test_endpoint():
 
     print(request.headers)
-    print(request.body)
+    print(request.get_data(as_text=True))
 
-    return request.body
+    return request.get_data(as_text=True)
 
     #return send_file(io.BytesIO(request.data),mimetype='image/jpeg', attachment_filename='myfile.jpg')
 
