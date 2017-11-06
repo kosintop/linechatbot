@@ -25,7 +25,7 @@ def create_message(data):
         pass
     elif data['type'] == 'imagemap':
         pass
-    elif data['type'] == 'tempalte':
+    elif data['type'] == 'template':
         pass
     else:
         raise TypeError('invalid message type, found ' + data['type'])

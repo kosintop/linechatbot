@@ -5,6 +5,7 @@ from linebot import LineBotApi
 from linebot import WebhookHandler
 from linebot.models import ImageMessage
 from linebot.models import MessageEvent
+from linebot.models import PostbackEvent
 from linebot.models import TextMessage
 from linebot.models import TextSendMessage
 from linebot.models import LocationMessage
@@ -81,3 +82,8 @@ def handle_location_message(event):
         print("Green Monkey Error")
         print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
+
+
+@event_handler.add(PostbackEvent)
+def handle_postback(event):
+    print(event)
