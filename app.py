@@ -33,10 +33,10 @@ def callback():
 @app.route("/test", methods=['GET'])
 def test_endpoint():
 
-    print(request.header())
-    print(request.body())
+    print(request.headers)
+    print(request.body)
 
-    return request.body()
+    return request.body
 
     #return send_file(io.BytesIO(request.data),mimetype='image/jpeg', attachment_filename='myfile.jpg')
 
