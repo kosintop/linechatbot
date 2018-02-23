@@ -27,6 +27,7 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
                data=binary_data,
                timeout=20
                )
+    print(r)
     print(r.json())
     data = r.json()['STATUS'][0]
     json_messages = json.loads(data['messages'])
@@ -47,7 +48,7 @@ def handle_text_message(event):
         send_data_to_inventech('/ASKBOBV2',json_data=json_data)
     except Exception as e:
         print("Red Monkey Error")
-        print(e.with_traceback())
+        print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
 
@@ -62,7 +63,7 @@ def handle_image_message(event):
         send_data_to_inventech('/POSTIMAGEV2'+param, binary_data=content,headers=headers)
     except Exception as e:
         print("Yellow Monkey Error")
-        print(e.with_traceback())
+        print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
 
@@ -81,7 +82,7 @@ def handle_location_message(event):
         send_data_to_inventech('/ASKBOBV2_LOCATION', json_data=json_data)
     except Exception as e:
         print("Green Monkey Error")
-        print(e.with_traceback())
+        print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
 
 
