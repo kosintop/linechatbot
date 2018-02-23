@@ -27,7 +27,7 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
                data=binary_data,
                timeout=20
                )
-    print(r)
+    print(r.content)
     print(r.json())
     data = r.json()['STATUS'][0]
     json_messages = json.loads(data['messages'])
