@@ -27,13 +27,22 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
                data=binary_data,
                timeout=60
                )
-    print(r.content)
-    print(r.json())
-    data = r.json()['STATUS'][0]
-    json_messages = json.loads(data['messages'])
 
-    messages = create_messages(json_messages)
-    line_bot_api.reply_message(data['replytoken'], messages)
+    print(json_data)
+    print(r.status_code)
+    print(r.json())
+    if r.status_code == 200:
+        data = r.json()['STATUS'][0]
+        json_messages = json.loads(data['messages'])
+
+        messages = create_messages(json_messages)
+        line_bot_api.reply_message(data['replytoken'], messages)
+    else:
+        json_messages = [
+            {'type':'text','text':'Cannot connect to server, please try again'}
+        ]
+        messages = create_messages(json_messages)
+        line_bot_api.reply_message(json_data['TOKENID'], messages)
 
 
 @event_handler.add(MessageEvent, message=TextMessage)
