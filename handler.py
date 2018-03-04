@@ -34,12 +34,14 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
     print(r.json())
 
     if r.status_code == 200:
+        print('successfully get server response')
         data = r.json()['STATUS'][0]
         json_messages = json.loads(data['messages'])
 
         messages = create_messages(json_messages)
         line_bot_api.reply_message(data['replytoken'], messages)
     else:
+        print('fail to get server response')
         json_messages = [
             {'type':'text','text':'Cannot connect to server, please try again'}
         ]
