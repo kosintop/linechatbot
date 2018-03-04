@@ -29,12 +29,9 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
                timeout=60
                )
 
-
-    print(r.status_code)
-    print(r.json())
-
     if r.status_code == 200:
         print('successfully get server response')
+        print(r.json())
         data = r.json()['STATUS'][0]
         json_messages = json.loads(data['messages'])
 
