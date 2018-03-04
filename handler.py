@@ -19,6 +19,7 @@ event_handler = WebhookHandler(CHANNEL_SECRET)
 
 
 def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None):
+    print(json_data)
     s = requests.Session()
     s.mount('http://', HTTPAdapter(max_retries=3))
     r = s.post(API_URL+endpoint,
@@ -28,9 +29,10 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
                timeout=60
                )
 
-    print(json_data)
+
     print(r.status_code)
     print(r.json())
+
     if r.status_code == 200:
         data = r.json()['STATUS'][0]
         json_messages = json.loads(data['messages'])
