@@ -1,3 +1,3 @@
-API_URL='https://www.inventech.co.th/dbo_sta/B2BSERVICES.svc'
+API_URL='http://www.inventech.co.th/dbo_sta/B2BSERVICES.svc'
 CHANNEL_TOKEN='E8gFxmPxdpjDdG66nEueEK2scns9tObvE160eeH0/P0ZcHAuGenfwiKZjgAFH1g/VkoU8/hl4xMwZxCEeLsfUTngnQ35WgpIFZM2m4Uqvdg3UY3+9ml74oPs3v7G2D7jRznRzRQwmDUZK2Bpy5jOeQdB04t89/1O/w1cDnyilFU='
 CHANNEL_SECRET='2c69df664098d82406c8cdfb94347dc3'

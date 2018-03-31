@@ -36,7 +36,7 @@ def reply_message(messages,user_id,token_id):
 def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None):
     print(json_data)
     s = requests.Session()
-    s.mount('https://', HTTPAdapter(max_retries=3))
+    s.mount('http://', HTTPAdapter(max_retries=3))
 
     # sending data to inventech
     try:
