@@ -67,7 +67,7 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
         reply_message(messages, json_data['USERID'], json_data['TOKENID'])
 
     else:
-        print('fail to get server response')
+        print('fail to get server response', r.status_code)
         json_messages = [
             {'type':'text','text':'Cannot connect to server, please try again'}
         ]
