@@ -37,7 +37,7 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
     print(json_data)
     print(API_URL+endpoint)
     s = requests.Session()
-    s.mount('https://', HTTPAdapter(max_retries=3))
+    s.mount('http://', HTTPAdapter(max_retries=3))
 
     # sending data to inventech
     try:
