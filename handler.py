@@ -46,7 +46,7 @@ def send_data_to_inventech(endpoint,headers=None,json_data=None,binary_data=None
                    json=json_data,
                    data=binary_data,
                    timeout=60,
-                   verify=False)
+                   verify=True)
     except Exception as e:
         print('error process request to server')
         print(e)
