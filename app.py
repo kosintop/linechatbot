@@ -77,17 +77,17 @@ def imagemap_300():
 
 
 @app.route("/imagemap/460", methods=['GET'])
-def imagemap_4600():
+def imagemap_460():
     return send_file('460.jpg', mimetype='image/jpg')
 
 
 @app.route("/imagemap/700", methods=['GET'])
-def imagemap_7000():
+def imagemap_700():
     return send_file('700.jpg', mimetype='image/jpg')
 
 
 @app.route("/imagemap/1040", methods=['GET'])
-def imagemap_10400():
+def imagemap_1040():
     return send_file('1040.jpg', mimetype='image/jpg')
 
 

@@ -36,7 +36,7 @@ def create_message(data):
 
 def create_imagemap():
     message = ImagemapSendMessage(
-        base_url='https://pbs.twimg.com/profile_images/846801302378078208/Xihz3l5J_400x400.jpg',
+        base_url='https://salestools-chatbot.herokuapp.com/imagemap',
         base_size=BaseSize(height=300,width=300),
         alt_text='image',
         actions=[
