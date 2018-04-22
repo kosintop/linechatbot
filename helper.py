@@ -37,31 +37,31 @@ def create_message(data):
 def create_imagemap():
     message = ImagemapSendMessage(
         base_url='https://salestools-chatbot.herokuapp.com/imagemap',
-        base_size=BaseSize(height=300,width=300),
+        base_size=BaseSize(height=1040,width=1040),
         alt_text='image',
         actions=[
                 URIImagemapAction(
                     link_uri='https://www.google.com/',
                     area=ImagemapArea(
-                        x=0, y=0, width=150, height=150
+                        x=0, y=0, width=520, height=520
                     )
                 ),
                 MessageImagemapAction(
                     text='blue',
                     area=ImagemapArea(
-                        x=150, y=0, width=150, height=150
+                        x=520, y=0, width=520, height=520
                     )
                 ),
                 MessageImagemapAction(
                     text='yellow',
                     area=ImagemapArea(
-                        x=0, y=150, width=150, height=150
+                        x=0, y=520, width=520, height=520
                     )
                 ),
                 URIImagemapAction(
                     link_uri='https://www.stackoverflow.com/',
                     area=ImagemapArea(
-                        x=150, y=150, width=150, height=150
+                        x=520, y=520, width=520, height=520
                     )
                 ),
             ])
