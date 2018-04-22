@@ -1,7 +1,8 @@
 from linebot.models import ImageSendMessage
 from linebot.models import LocationSendMessage
 from linebot.models import TextSendMessage
-
+from linebot.models import ImagemapSendMessage
+from linebot.models.imagemap import ImagemapAction, BaseSize, URIImagemapAction, MessageImagemapAction,ImagemapArea
 
 def create_messages(data_list):
     message_list = []
@@ -30,4 +31,37 @@ def create_message(data):
     else:
         raise TypeError('invalid message type, found ' + data['type'])
 
+    return message
+
+
+def create_imagemap():
+    message = ImagemapSendMessage(
+        base_url='https://pbs.twimg.com/profile_images/846801302378078208/Xihz3l5J_400x400.jpg',
+        base_size=BaseSize(height=400,width=400),
+        actions=[
+                URIImagemapAction(
+                    link_uri='https://www.google.com/',
+                    area=ImagemapArea(
+                        x=0, y=0, width=200, height=200
+                    )
+                ),
+                MessageImagemapAction(
+                    text='blue',
+                    area=ImagemapArea(
+                        x=200, y=0, width=200, height=200
+                    )
+                ),
+                MessageImagemapAction(
+                    text='yellow',
+                    area=ImagemapArea(
+                        x=0, y=200, width=200, height=200
+                    )
+                ),
+                URIImagemapAction(
+                    link_uri='https://www.stackoverflow.com/',
+                    area=ImagemapArea(
+                        x=200, y=200, width=200, height=200
+                    )
+                ),
+            ])
     return message

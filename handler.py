@@ -12,7 +12,7 @@ from linebot.models import TextSendMessage
 from linebot.models import LocationMessage
 from requests.adapters import HTTPAdapter
 
-from helper import create_messages
+from helper import create_messages, create_imagemap
 from settings import CHANNEL_SECRET, CHANNEL_TOKEN,API_URL
 
 line_bot_api = LineBotApi(CHANNEL_TOKEN)
@@ -82,6 +82,11 @@ def handle_text_message(event):
         "MESSAGE": event.message.text,
         "TOKENID": event.reply_token
     }
+
+    if event.message.text == 'imagemap':
+        message = create_imagemap()
+        line_bot_api.push_message(event.source.user_id, [message])
+        return
 
     try:
         send_data_to_inventech('/ASKBOBV2',json_data=json_data)
