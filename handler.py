@@ -25,6 +25,8 @@ def reply_message(messages,user_id,token_id):
     except LineBotApiError as e:
         print('LineBotApiError')
         print(e.status_code)
+        print(e.error)
+        print(e.message)
         try:
             print('unable to reply, trying push instead')
             line_bot_api.push_message(user_id,messages)
