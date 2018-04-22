@@ -65,5 +65,31 @@ def push_message():
     line_bot_api.push_message(data['to'],messages)
     return 'OK'
 
+
+@app.route("/imagemap/240", methods=['GET'])
+def imagemap_240():
+    return send_file('240.jpg', mimetype='image/jpg')
+
+
+@app.route("/imagemap/300", methods=['GET'])
+def imagemap_300():
+    return send_file('300.jpg', mimetype='image/jpg')
+
+
+@app.route("/imagemap/460", methods=['GET'])
+def imagemap_4600():
+    return send_file('460.jpg', mimetype='image/jpg')
+
+
+@app.route("/imagemap/700", methods=['GET'])
+def imagemap_7000():
+    return send_file('700.jpg', mimetype='image/jpg')
+
+
+@app.route("/imagemap/1040", methods=['GET'])
+def imagemap_10400():
+    return send_file('1040.jpg', mimetype='image/jpg')
+
+
 if __name__ == "__main__":
     app.run()

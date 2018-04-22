@@ -37,31 +37,31 @@ def create_message(data):
 def create_imagemap():
     message = ImagemapSendMessage(
         base_url='https://pbs.twimg.com/profile_images/846801302378078208/Xihz3l5J_400x400.jpg',
-        base_size=BaseSize(height=400,width=400),
+        base_size=BaseSize(height=300,width=300),
         alt_text='image',
         actions=[
                 URIImagemapAction(
                     link_uri='https://www.google.com/',
                     area=ImagemapArea(
-                        x=0, y=0, width=200, height=200
+                        x=0, y=0, width=150, height=150
                     )
                 ),
                 MessageImagemapAction(
                     text='blue',
                     area=ImagemapArea(
-                        x=200, y=0, width=200, height=200
+                        x=150, y=0, width=150, height=150
                     )
                 ),
                 MessageImagemapAction(
                     text='yellow',
                     area=ImagemapArea(
-                        x=0, y=200, width=200, height=200
+                        x=0, y=150, width=150, height=150
                     )
                 ),
                 URIImagemapAction(
                     link_uri='https://www.stackoverflow.com/',
                     area=ImagemapArea(
-                        x=200, y=200, width=200, height=200
+                        x=150, y=150, width=150, height=150
                     )
                 ),
             ])
