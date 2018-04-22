@@ -38,6 +38,7 @@ def create_imagemap():
     message = ImagemapSendMessage(
         base_url='https://pbs.twimg.com/profile_images/846801302378078208/Xihz3l5J_400x400.jpg',
         base_size=BaseSize(height=400,width=400),
+        alt_text='image',
         actions=[
                 URIImagemapAction(
                     link_uri='https://www.google.com/',
