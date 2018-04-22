@@ -87,7 +87,13 @@ def handle_text_message(event):
 
     if event.message.text == 'imagemap':
         message = create_imagemap()
-        line_bot_api.push_message(event.source.user_id, [message])
+        try:
+            line_bot_api.push_message(event.source.user_id, [message])
+        except LineBotApiError as e:
+            print('LineBotApiError')
+            print(e.status_code)
+            print(e.error)
+            print(e.message)
         return
 
     try:
