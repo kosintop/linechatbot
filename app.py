@@ -32,7 +32,7 @@ def callback():
 
 @app.route("/test", methods=['GET'])
 def test_endpoint():
-
+    print('header')
     print(request.headers)
     print(request.get_data(as_text=True))
 

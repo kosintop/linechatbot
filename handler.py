@@ -95,6 +95,9 @@ def handle_text_message(event):
             print(e.error)
             print(e.message)
         return
+    elif event.message.text == 'link':
+        line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str('https://salestools-chatbot.herokuapp.com/test'))])
+        return
 
     try:
         send_data_to_inventech('/ASKBOBV2',json_data=json_data)
@@ -102,6 +105,64 @@ def handle_text_message(event):
         print("Red Monkey Error")
         print(e)
         line_bot_api.push_message(event.source.user_id, [TextSendMessage(text=str(e))])
+
+#
+# def create_rich_menu(user_id):
+#     rich_menu_to_create = RichMenu(
+#         size=RichMenuBound(
+#             width=2500,
+#             height=1686
+#         ),
+#         selected=False,
+#         name="nice richmenu",
+#         chatBarText="touch me",
+#         areas=[
+#             RichMenuArea(
+#                 RichMenuBound(
+#                     x=0,
+#                     y=0,
+#                     width=1250,
+#                     height=843,
+#                 ),
+#                 MessageTemplateAction(label='ยืนยันตัวตน',text='ยืนยันตัวตน')
+#             ),
+#             RichMenuArea(
+#                 RichMenuBound(
+#                     x=0,
+#                     y=843,
+#                     width=1250,
+#                     height=843,
+#                 ),
+#                 MessageTemplateAction(label='เช็คคะแนน', text='เช็คคะแนน')
+#             ),
+#             RichMenuArea(
+#                 RichMenuBound(
+#                     x=1250,
+#                     y=0,
+#                     width=1250,
+#                     height=843,
+#                 ),
+#                 MessageTemplateAction(label='ข่าวสารและโปรโมชั่น', text='ข่าวสารและโปรโมชั่น')
+#             ),
+#             RichMenuArea(
+#                 RichMenuBound(
+#                     x=1250,
+#                     y=843,
+#                     width=1250,
+#                     height=843,
+#                 ),
+#                 URITemplateAction(
+#                     uri='http://122.155.162.25/STB2B/redeem.aspx?id=' + user_id
+#                 )
+#             )
+#         ]
+#     )
+#     rich_menu_id = line_bot_api.create_rich_menu(rich_menu_to_create)
+#     return rich_menu_id
+#
+# def link_rich_menu(user_id):
+#     rich_menu_id = create_rich_menu(user_id)
+#     return
 
 
 @event_handler.add(MessageEvent,message=[ImageMessage])
