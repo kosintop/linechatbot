@@ -4,7 +4,7 @@ import requests
 from linebot import LineBotApi
 from linebot import WebhookHandler
 from linebot.exceptions import LineBotApiError
-from linebot.models import ImageMessage
+from linebot.models import ImageMessage, JoinEvent
 from linebot.models import MessageEvent
 from linebot.models import PostbackEvent
 from linebot.models import TextMessage
@@ -206,3 +206,8 @@ def handle_location_message(event):
 @event_handler.add(PostbackEvent)
 def handle_postback(event):
     print(event)
+
+
+@event_handler.add(JoinEvent)
+def test_join(event):
+    print('join room')
