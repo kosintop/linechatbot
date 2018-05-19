@@ -44,6 +44,7 @@ def test_endpoint():
         'client_id':'1581119181',
         'client_secret':'a3dc6d57957ac8c0c8ebe88fc7687d99',
     })
+    print(response.json())
     token = response.json()['access_token']
     response2 = requests.get('https://api.line.me/v2/profile',headers={'Authorization': 'Bearer %s' % token})
 
