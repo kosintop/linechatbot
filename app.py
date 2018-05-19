@@ -1,7 +1,7 @@
 import io
 
 import requests
-from flask import Flask, request, abort
+from flask import Flask, request, abort, redirect
 from flask import send_file
 from handler import event_handler, line_bot_api
 from linebot.exceptions import InvalidSignatureError
@@ -44,7 +44,8 @@ def test_endpoint():
         'client_id':'1581119181',
         'client_secret':'a3dc6d57957ac8c0c8ebe88fc7687d99',
     })
-
+    
+    return response.__str__()
     #return send_file(io.BytesIO(request.data),mimetype='image/jpeg', attachment_filename='myfile.jpg')
 
 
