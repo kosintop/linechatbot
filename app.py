@@ -1,4 +1,6 @@
 import io
+
+import requests
 from flask import Flask, request, abort
 from flask import send_file
 from handler import event_handler, line_bot_api
@@ -30,15 +32,30 @@ def callback():
     return 'OK'
 
 
+@app.route("/auth", methods=['GET'])
+def callback():
+    return ''
+
+
 @app.route("/test", methods=['GET'])
 def test_endpoint():
     print('header')
-    print(request.headers)
     print(request.get_data(as_text=True))
-
-    return request.get_data(as_text=True)
+    code = request.args.get('code')
+    response = requests.post('https://api.line.me/oauth2/v2.1/token',data={
+        'grant_type':'authorization_code',
+        'code':code,
+        'redirect_uri':'https://salestools-chatbot.herokuapp.com/test2',
+        'client_id':'1581119181',
+        'client_secret':'a3dc6d57957ac8c0c8ebe88fc7687d99',
+    })
 
     #return send_file(io.BytesIO(request.data),mimetype='image/jpeg', attachment_filename='myfile.jpg')
+
+
+@app.route("/test2", methods=['GET'])
+def test_endpoint2():
+    return 'test2'
 
 
 @app.route("/push_message", methods=['POST'])
