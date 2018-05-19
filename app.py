@@ -40,7 +40,7 @@ def test_endpoint():
     response = requests.post('https://api.line.me/oauth2/v2.1/token',data={
         'grant_type':'authorization_code',
         'code':code,
-        'redirect_uri':'https://salestools-chatbot.herokuapp.com/test2',
+        'redirect_uri':'https://salestools-chatbot.herokuapp.com/test',
         'client_id':'1581119181',
         'client_secret':'a3dc6d57957ac8c0c8ebe88fc7687d99',
     })
