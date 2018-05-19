@@ -32,11 +32,6 @@ def callback():
     return 'OK'
 
 
-@app.route("/auth", methods=['GET'])
-def callback():
-    return ''
-
-
 @app.route("/test", methods=['GET'])
 def test_endpoint():
     print('header')
