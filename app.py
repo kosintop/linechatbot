@@ -47,8 +47,8 @@ def test_endpoint():
     print(response.json())
     token = response.json()['access_token']
     response2 = requests.get('https://api.line.me/v2/profile',headers={'Authorization': 'Bearer %s' % token})
-
-    return response2.json()
+    print(response2.json())
+    return response2.content.__str__()
     #return send_file(io.BytesIO(request.data),mimetype='image/jpeg', attachment_filename='myfile.jpg')
 
 
